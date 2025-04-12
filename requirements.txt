@@ -6,4 +6,5 @@ faiss-cpu
 transformers
 torch
 langchain
+langchain-community
 groq
