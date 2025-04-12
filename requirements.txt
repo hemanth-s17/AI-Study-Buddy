@@ -1,0 +1,7 @@
+streamlit
+PyMuPDF
+youtube-transcript-api
+sentence-transformers
+faiss-cpu
+transformers
+torch
