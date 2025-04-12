@@ -18,5 +18,5 @@ def generate_flashcards(text, num_flashcards=5):
         f"Content: {text[:2000]}"
     )
 
-    output = generator(prompt)[0]['generated_text']
+    output = generator(prompt)
     return output.replace(prompt, "").strip()

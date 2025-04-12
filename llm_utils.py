@@ -6,30 +6,48 @@ Created on Sat Apr 12 16:26:34 2025
 @author: hemanthsanisetty
 """
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-import torch
+import os
+import requests
 
-# Load model + tokenizer once
-MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
+GROQ_API_KEY = "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"  # Set this in your environment or .env file
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+DEFAULT_MODEL = "mistral-saba-24b"  # or "llama3-70b-8192", etc.
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModelForCausalLM.from_pretrained(
-    MODEL_NAME,
-    torch_dtype=torch.float16,
-    device_map="auto"
-)
+HEADERS = {
+    "Authorization": f"Bearer {GROQ_API_KEY}",
+    "Content-Type": "application/json"
+}
 
-generator = pipeline(
-    "text-generation",
-    model=model,
-    tokenizer=tokenizer,
-    device=0,
-    max_new_tokens=512,
-    do_sample=True,
-    temperature=0.7,
-    top_p=0.9,
-    repetition_penalty=1.1
-)
+
+
+from groq import Groq
+
+
+
+def generator(prompt, system_prompt="You are a helpful assistant.", model=DEFAULT_MODEL, temperature=0.7):
+
+    client = Groq(
+        # This is the default and can be omitted
+        api_key=GROQ_API_KEY,
+    )
+
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": "you are a helpful assistant."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        model= DEFAULT_MODEL
+    )
+
+    return chat_completion.choices[0].message.content
+
+
 
 def summarize_text(text):
     """
@@ -41,5 +59,5 @@ def summarize_text(text):
         f"Content: {text[:2000]}"
     )
 
-    output = generator(prompt)[0]['generated_text']
+    output = generator(prompt)
     return output.replace(prompt, "").strip()

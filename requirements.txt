@@ -5,3 +5,5 @@ sentence-transformers
 faiss-cpu
 transformers
 torch
+langchain
+groq

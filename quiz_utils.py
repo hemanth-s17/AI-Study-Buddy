@@ -20,6 +20,6 @@ def generate_quiz(text, num_questions=5):
         f"Content: {text[:2000]}"
     )
 
-    output = generator(prompt)[0]['generated_text']
+    output = generator(prompt)
     return output.replace(prompt, "").strip()
 

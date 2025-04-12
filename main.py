@@ -11,7 +11,7 @@ from pdf_utils import extract_text_from_pdf
 from llm_utils import summarize_text
 from rag_utils import create_vector_store, query_vector_store
 from quiz_utils import generate_quiz
-from flashcard_utils import generate_flashcards
+from flashcards_utils import generate_flashcards
 from youtube_utils import get_transcript
 from text_utils import clean_text
 
